@@ -10,20 +10,20 @@ from odoo_boost.mcp_server.context import ServerContext, set_context
 
 # Tool implementations
 from odoo_boost.mcp_server.tools.application_info import application_info
-from odoo_boost.mcp_server.tools.database_schema import database_schema
 from odoo_boost.mcp_server.tools.database_query import database_query
-from odoo_boost.mcp_server.tools.list_models import list_models
-from odoo_boost.mcp_server.tools.list_views import list_views
-from odoo_boost.mcp_server.tools.list_menus import list_menus
-from odoo_boost.mcp_server.tools.list_routes import list_routes
-from odoo_boost.mcp_server.tools.list_access_rights import list_access_rights
+from odoo_boost.mcp_server.tools.database_schema import database_schema
+from odoo_boost.mcp_server.tools.execute_method import execute_method
 from odoo_boost.mcp_server.tools.get_config import get_config
 from odoo_boost.mcp_server.tools.get_module_info import get_module_info
-from odoo_boost.mcp_server.tools.search_records import search_records
-from odoo_boost.mcp_server.tools.execute_method import execute_method
+from odoo_boost.mcp_server.tools.list_access_rights import list_access_rights
+from odoo_boost.mcp_server.tools.list_menus import list_menus
+from odoo_boost.mcp_server.tools.list_models import list_models
+from odoo_boost.mcp_server.tools.list_routes import list_routes
+from odoo_boost.mcp_server.tools.list_views import list_views
+from odoo_boost.mcp_server.tools.list_workflows import list_workflows
 from odoo_boost.mcp_server.tools.read_log_entries import read_log_entries
 from odoo_boost.mcp_server.tools.search_docs import search_docs
-from odoo_boost.mcp_server.tools.list_workflows import list_workflows
+from odoo_boost.mcp_server.tools.search_records import search_records
 
 
 def create_mcp_server(config: OdooBoostConfig) -> FastMCP:

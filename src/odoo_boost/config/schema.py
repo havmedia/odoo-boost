@@ -14,9 +14,7 @@ class OdooConnection(BaseModel):
     database: str = Field(description="Database name")
     username: str = Field(default="admin", description="Login username")
     password: str = Field(default="admin", description="Login password or API key")
-    protocol: Literal["xmlrpc"] = Field(
-        default="xmlrpc", description="Connection protocol"
-    )
+    protocol: Literal["xmlrpc"] = Field(default="xmlrpc", description="Connection protocol")
 
 
 class OdooBoostConfig(BaseModel):
@@ -30,6 +28,4 @@ class OdooBoostConfig(BaseModel):
         default_factory=list,
         description="Enabled agent identifiers (e.g. ['claude_code', 'cursor'])",
     )
-    project_path: str = Field(
-        default=".", description="Path to the Odoo project root"
-    )
+    project_path: str = Field(default=".", description="Path to the Odoo project root")

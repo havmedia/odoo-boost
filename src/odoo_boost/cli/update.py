@@ -21,7 +21,7 @@ def update(
         cfg = load_config(config)
     except FileNotFoundError:
         console.print("[red]No odoo-boost.json found. Run 'odoo-boost install' first.[/]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
     project_path = Path(cfg.project_path).resolve() if cfg.project_path != "." else Path.cwd()
 

@@ -82,9 +82,7 @@ class Agent(ABC):
     def _write_mcp_config(self) -> Path:
         """Write the MCP config file."""
         self.mcp_config_path.parent.mkdir(parents=True, exist_ok=True)
-        self.mcp_config_path.write_text(
-            self._mcp_config_content(), encoding="utf-8"
-        )
+        self.mcp_config_path.write_text(self._mcp_config_content(), encoding="utf-8")
         return self.mcp_config_path
 
     def _write_skills(self) -> list[Path]:

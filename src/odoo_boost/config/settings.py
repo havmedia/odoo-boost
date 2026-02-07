@@ -28,9 +28,7 @@ def load_config(path: Path | None = None) -> OdooBoostConfig:
     if path is None:
         path = find_config_path()
     if path is None:
-        raise FileNotFoundError(
-            f"No {CONFIG_FILENAME} found. Run 'odoo-boost install' first."
-        )
+        raise FileNotFoundError(f"No {CONFIG_FILENAME} found. Run 'odoo-boost install' first.")
     data = json.loads(path.read_text(encoding="utf-8"))
     return OdooBoostConfig.model_validate(data)
 

@@ -33,22 +33,24 @@ class CursorAgent(Agent):
             "description: Odoo development guidelines from Odoo Boost\n"
             "globs:\n"
             "alwaysApply: true\n"
-            "---\n\n"
-            + content
+            "---\n\n" + content
         )
         self.guidelines_path.parent.mkdir(parents=True, exist_ok=True)
         self.guidelines_path.write_text(mdc, encoding="utf-8")
         return self.guidelines_path
 
     def _mcp_config_content(self) -> str:
-        return json.dumps(
-            {
-                "mcpServers": {
-                    "odoo-boost": {
-                        "command": "odoo-boost",
-                        "args": ["mcp"],
+        return (
+            json.dumps(
+                {
+                    "mcpServers": {
+                        "odoo-boost": {
+                            "command": "odoo-boost",
+                            "args": ["mcp"],
+                        }
                     }
-                }
-            },
-            indent=2,
-        ) + "\n"
+                },
+                indent=2,
+            )
+            + "\n"
+        )

@@ -36,24 +36,26 @@ def read_log_entries(
             order="create_date desc",
         )
     except Exception as exc:
-        return json.dumps({
-            "error": f"Cannot read ir.logging: {exc}. "
-            "Ensure log_db is configured in odoo.conf.",
-        })
+        return json.dumps(
+            {
+                "error": f"Cannot read ir.logging: {exc}. "
+                "Ensure log_db is configured in odoo.conf.",
+            }
+        )
 
     result = {
         "total": len(logs),
         "entries": [
             {
-                "timestamp": l.get("create_date", ""),
-                "level": l.get("level", ""),
-                "name": l.get("name", ""),
-                "function": l.get("func", ""),
-                "path": l.get("path", ""),
-                "line": l.get("line", ""),
-                "message": l.get("message", ""),
+                "timestamp": entry.get("create_date", ""),
+                "level": entry.get("level", ""),
+                "name": entry.get("name", ""),
+                "function": entry.get("func", ""),
+                "path": entry.get("path", ""),
+                "line": entry.get("line", ""),
+                "message": entry.get("message", ""),
             }
-            for l in logs
+            for entry in logs
         ],
     }
     return json.dumps(result, indent=2, default=str)

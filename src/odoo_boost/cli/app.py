@@ -36,8 +36,8 @@ def _main(
 # Import commands so they register with the app
 from odoo_boost.cli.check import check  # noqa: E402
 from odoo_boost.cli.install import install  # noqa: E402
-from odoo_boost.cli.update import update  # noqa: E402
 from odoo_boost.cli.mcp_cmd import mcp  # noqa: E402
+from odoo_boost.cli.update import update  # noqa: E402
 
 app.command()(check)
 app.command()(install)

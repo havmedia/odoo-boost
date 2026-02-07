@@ -73,16 +73,15 @@ def get_module_info(module_name: str) -> str:
         "website": mod.get("website", ""),
         "version": mod.get("installed_version", ""),
         "state": mod.get("state", ""),
-        "category": mod.get("category_id", [False, ""])[1] if isinstance(mod.get("category_id"), list) else str(mod.get("category_id", "")),
+        "category": mod.get("category_id", [False, ""])[1]
+        if isinstance(mod.get("category_id"), list)
+        else str(mod.get("category_id", "")),
         "license": mod.get("license", ""),
         "application": mod.get("application", False),
         "dependencies": [
             {"name": d["name"], "auto_install_required": d.get("auto_install_required", False)}
             for d in deps
         ],
-        "models": [
-            {"model": m["model"], "name": m["name"]}
-            for m in models
-        ],
+        "models": [{"model": m["model"], "name": m["name"]} for m in models],
     }
     return json.dumps(result, indent=2, default=str)

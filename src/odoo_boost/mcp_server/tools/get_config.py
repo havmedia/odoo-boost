@@ -33,9 +33,6 @@ def get_config(
 
     result = {
         "total": len(params),
-        "parameters": [
-            {"key": p["key"], "value": p.get("value", "")}
-            for p in params
-        ],
+        "parameters": [{"key": p["key"], "value": p.get("value", "")} for p in params],
     }
     return json.dumps(result, indent=2, default=str)

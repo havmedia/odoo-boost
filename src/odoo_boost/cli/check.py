@@ -8,7 +8,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from odoo_boost.config.schema import OdooBoostConfig, OdooConnection as OdooConnectionConfig
+from odoo_boost.config.schema import OdooConnection as OdooConnectionConfig
 from odoo_boost.config.settings import load_config
 from odoo_boost.connection.factory import create_connection
 
@@ -39,7 +39,7 @@ def check(
                 "[red]No connection details provided and no odoo-boost.json found.[/]\n"
                 "Pass --url and --database, or run 'odoo-boost install' first."
             )
-            raise typer.Exit(1)
+            raise typer.Exit(1) from None
         conn_cfg = cfg.connection
 
     conn = create_connection(conn_cfg)
@@ -50,7 +50,7 @@ def check(
         version_info = conn.get_version()
     except Exception as exc:
         console.print(f"[red]Failed to reach server:[/] {exc}")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
     server_version = version_info.get("server_version", "unknown")
     console.print(f"  Server version: [cyan]{server_version}[/]")
@@ -60,15 +60,13 @@ def check(
         uid = conn.authenticate()
     except Exception as exc:
         console.print(f"  [red]Authentication failed:[/] {exc}")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
     console.print(f"  Authenticated as UID: [cyan]{uid}[/]")
 
     # 3. Quick module count
     try:
-        module_count = conn.search_count(
-            "ir.module.module", [("state", "=", "installed")]
-        )
+        module_count = conn.search_count("ir.module.module", [("state", "=", "installed")])
         console.print(f"  Installed modules: [cyan]{module_count}[/]")
     except Exception:
         console.print("  [yellow]Could not count installed modules[/]")

@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 import importlib.resources
-import shutil
 from pathlib import Path
-
 
 _SKILL_DIRS = [
     "creating_models",
@@ -26,11 +24,7 @@ def list_skills() -> list[str]:
 
 def load_skill(skill_name: str) -> str:
     """Read and return the SKILL.md content for a skill."""
-    ref = (
-        importlib.resources.files("odoo_boost.skills")
-        / skill_name
-        / "SKILL.md"
-    )
+    ref = importlib.resources.files("odoo_boost.skills") / skill_name / "SKILL.md"
     return ref.read_text(encoding="utf-8")
 
 

@@ -118,17 +118,22 @@ def search_docs(
             or topic_lower in info["description"].lower()
         ):
             url = f"{_DOC_BASE}/{ver}{info['path']}"
-            matches.append({
-                "topic": key,
-                "title": info["title"],
-                "url": url,
-                "description": info["description"],
-            })
+            matches.append(
+                {
+                    "topic": key,
+                    "title": info["title"],
+                    "url": url,
+                    "description": info["description"],
+                }
+            )
 
     if not matches:
-        return json.dumps({
-            "message": f"No documentation found for '{topic}'.",
-            "available_topics": list(_TOPICS.keys()),
-        }, indent=2)
+        return json.dumps(
+            {
+                "message": f"No documentation found for '{topic}'.",
+                "available_topics": list(_TOPICS.keys()),
+            },
+            indent=2,
+        )
 
     return json.dumps({"results": matches}, indent=2)

@@ -20,7 +20,7 @@ def mcp(
         cfg = load_config(config)
     except FileNotFoundError:
         console.print("[red]No odoo-boost.json found. Run 'odoo-boost install' first.[/]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
     from odoo_boost.mcp_server.server import create_mcp_server
 

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import importlib.resources
 
-
 _CORE_FILES = [
     "odoo_general.md",
     "module_structure.md",

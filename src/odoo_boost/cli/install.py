@@ -7,7 +7,7 @@ from pathlib import Path
 import typer
 from rich.console import Console
 from rich.panel import Panel
-from rich.prompt import Confirm, Prompt
+from rich.prompt import Prompt
 
 from odoo_boost.agents import AGENTS, ALL_AGENT_IDS
 from odoo_boost.config.schema import OdooBoostConfig, OdooConnection
@@ -52,14 +52,14 @@ def install() -> None:
         console.print(f"  Server version: [cyan]{server_version}[/]")
     except Exception as exc:
         console.print(f"  [red]Failed to reach server:[/] {exc}")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
     try:
         uid = conn.authenticate()
         console.print(f"  Authenticated as UID: [cyan]{uid}[/]")
     except Exception as exc:
         console.print(f"  [red]Authentication failed:[/] {exc}")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
     # Detect Odoo version series (e.g. "17.0", "18.0")
     odoo_version = version_info.get("server_serie", server_version.split("-")[0])

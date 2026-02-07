@@ -68,8 +68,12 @@ def list_access_rights(
         "access_rights": [
             {
                 "name": a["name"],
-                "model": a.get("model_id", [False, ""])[1] if isinstance(a.get("model_id"), list) else str(a.get("model_id", "")),
-                "group": a.get("group_id", [False, ""])[1] if isinstance(a.get("group_id"), list) else str(a.get("group_id", "")),
+                "model": a.get("model_id", [False, ""])[1]
+                if isinstance(a.get("model_id"), list)
+                else str(a.get("model_id", "")),
+                "group": a.get("group_id", [False, ""])[1]
+                if isinstance(a.get("group_id"), list)
+                else str(a.get("group_id", "")),
                 "read": a.get("perm_read", False),
                 "write": a.get("perm_write", False),
                 "create": a.get("perm_create", False),
@@ -80,7 +84,9 @@ def list_access_rights(
         "record_rules": [
             {
                 "name": r["name"],
-                "model": r.get("model_id", [False, ""])[1] if isinstance(r.get("model_id"), list) else str(r.get("model_id", "")),
+                "model": r.get("model_id", [False, ""])[1]
+                if isinstance(r.get("model_id"), list)
+                else str(r.get("model_id", "")),
                 "domain": r.get("domain_force", ""),
                 "global": r.get("global", False),
                 "read": r.get("perm_read", False),

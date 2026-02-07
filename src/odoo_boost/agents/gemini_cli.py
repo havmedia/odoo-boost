@@ -25,14 +25,17 @@ class GeminiCliAgent(Agent):
         return self.project_path / ".agents" / "skills"
 
     def _mcp_config_content(self) -> str:
-        return json.dumps(
-            {
-                "mcpServers": {
-                    "odoo-boost": {
-                        "command": "odoo-boost",
-                        "args": ["mcp"],
+        return (
+            json.dumps(
+                {
+                    "mcpServers": {
+                        "odoo-boost": {
+                            "command": "odoo-boost",
+                            "args": ["mcp"],
+                        }
                     }
-                }
-            },
-            indent=2,
-        ) + "\n"
+                },
+                indent=2,
+            )
+            + "\n"
+        )

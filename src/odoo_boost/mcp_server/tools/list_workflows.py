@@ -36,14 +36,16 @@ def list_workflows(
             order="model_name, name",
         )
         for a in autos:
-            automations.append({
-                "id": a["id"],
-                "name": a["name"],
-                "model": a.get("model_name", ""),
-                "trigger": a.get("trigger", ""),
-                "active": a.get("active", True),
-                "server_action_count": len(a.get("action_server_ids", [])),
-            })
+            automations.append(
+                {
+                    "id": a["id"],
+                    "name": a["name"],
+                    "model": a.get("model_name", ""),
+                    "trigger": a.get("trigger", ""),
+                    "active": a.get("active", True),
+                    "server_action_count": len(a.get("action_server_ids", [])),
+                }
+            )
     except Exception:
         pass  # base_automation module may not be installed
 
@@ -61,14 +63,16 @@ def list_workflows(
             order="model_name, sequence, name",
         )
         for a in actions:
-            server_actions.append({
-                "id": a["id"],
-                "name": a["name"],
-                "model": a.get("model_name", ""),
-                "type": a.get("state", ""),
-                "code_preview": (a.get("code") or "")[:200],
-                "sequence": a.get("sequence", 5),
-            })
+            server_actions.append(
+                {
+                    "id": a["id"],
+                    "name": a["name"],
+                    "model": a.get("model_name", ""),
+                    "type": a.get("state", ""),
+                    "code_preview": (a.get("code") or "")[:200],
+                    "sequence": a.get("sequence", 5),
+                }
+            )
     except Exception:
         pass
 

@@ -47,14 +47,10 @@ class XmlRpcConnection(BaseConnection):
     # -- public interface ----------------------------------------------------
 
     def authenticate(self) -> int:
-        uid = self._common_proxy.authenticate(
-            self._database, self._username, self._password, {}
-        )
+        uid = self._common_proxy.authenticate(self._database, self._username, self._password, {})
         if not uid:
-            raise ConnectionError(
-                f"Authentication failed for {self._username}@{self._database}"
-            )
-        self._uid = int(uid)
+            raise ConnectionError(f"Authentication failed for {self._username}@{self._database}")
+        self._uid = int(uid)  # type: ignore[arg-type]
         return self._uid
 
     @property
@@ -106,4 +102,4 @@ class XmlRpcConnection(BaseConnection):
         return self.execute(model, "search_count", domain or [])
 
     def get_version(self) -> dict[str, Any]:
-        return self._common_proxy.version()
+        return self._common_proxy.version()  # type: ignore[return-value]

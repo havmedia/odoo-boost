@@ -35,12 +35,14 @@ def list_routes(
             order="url",
         )
         for p in pages:
-            routes.append({
-                "type": "page",
-                "url": p.get("url", ""),
-                "name": p.get("name", ""),
-                "published": p.get("is_published", False),
-            })
+            routes.append(
+                {
+                    "type": "page",
+                    "url": p.get("url", ""),
+                    "name": p.get("name", ""),
+                    "published": p.get("is_published", False),
+                }
+            )
     except Exception:
         pass  # website module not installed
 
@@ -57,12 +59,14 @@ def list_routes(
             limit=limit,
         )
         for r in url_rewrites:
-            routes.append({
-                "type": "rewrite",
-                "url": r.get("url_from", ""),
-                "target": r.get("url_to", ""),
-                "name": r.get("name", ""),
-            })
+            routes.append(
+                {
+                    "type": "rewrite",
+                    "url": r.get("url_from", ""),
+                    "target": r.get("url_to", ""),
+                    "name": r.get("name", ""),
+                }
+            )
     except Exception:
         pass  # model may not exist
 
