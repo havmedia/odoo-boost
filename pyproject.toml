@@ -47,8 +47,8 @@ dev = [
 odoo-boost = "odoo_boost.cli.app:main"
 
 [project.urls]
-Homepage = "https://github.com/odoo-boost/odoo-boost"
-Repository = "https://github.com/odoo-boost/odoo-boost"
+Homepage = "https://github.com/havmedia/odoo-boost"
+Repository = "https://github.com/havmedia/odoo-boost"
 
 [tool.hatch.version]
 path = "src/odoo_boost/__version__.py"

@@ -24,9 +24,11 @@ class CodexAgent(Agent):
         return self.project_path / ".agents" / "skills"
 
     def _mcp_config_content(self) -> str:
+        cmd = self._mcp_command()
+        args_toml = ", ".join(f'"{a}"' for a in cmd[1:])
         return (
             "# Odoo Boost MCP configuration for Codex\n"
             "[mcp_servers.odoo-boost]\n"
-            'command = "odoo-boost"\n'
-            'args = ["mcp"]\n'
+            f'command = "{cmd[0]}"\n'
+            f"args = [{args_toml}]\n"
         )

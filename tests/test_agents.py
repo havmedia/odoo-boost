@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -107,7 +108,8 @@ class TestAgentContracts:
 
     def test_mcp_command(self, agent: Agent):
         cmd = agent._mcp_command()
-        assert cmd == ["odoo-boost", "mcp"]
+        assert cmd[0] == sys.executable
+        assert cmd[1:] == ["-m", "odoo_boost", "mcp"]
 
 
 # ---------------------------------------------------------------------------
