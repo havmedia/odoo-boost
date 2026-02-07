@@ -20,10 +20,18 @@ Or with [uv](https://docs.astral.sh/uv/):
 uv pip install odoo-boost
 ```
 
+Or as a global CLI tool (available outside any virtualenv):
+
+```bash
+uv tool install odoo-boost
+```
+
 Verify the installation:
 
 ```bash
 odoo-boost --version
+# or equivalently:
+python -m odoo_boost --version
 ```
 
 ## Step 2: Run the Install Wizard
@@ -143,7 +151,7 @@ claude
 Or manually add the MCP server:
 
 ```bash
-claude mcp add odoo-boost odoo-boost mcp
+claude mcp add odoo-boost -- python -m odoo_boost mcp
 ```
 
 Then try:

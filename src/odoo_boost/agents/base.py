@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import shutil
+import sys
 from abc import ABC, abstractmethod
 from pathlib import Path
 
@@ -69,8 +70,12 @@ class Agent(ABC):
     # -- helpers -------------------------------------------------------------
 
     def _mcp_command(self) -> list[str]:
-        """Return the command to start the MCP server."""
-        return ["odoo-boost", "mcp"]
+        """Return the command to start the MCP server.
+
+        Uses the full path to the current Python interpreter so the MCP
+        server starts in the correct environment regardless of ``PATH``.
+        """
+        return [sys.executable, "-m", "odoo_boost", "mcp"]
 
     def _write_guidelines(self) -> Path:
         """Compose and write the guidelines file."""

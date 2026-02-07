@@ -21,18 +21,20 @@ Odoo Boost supports 6 AI coding agents. Each agent gets three types of generated
 {
   "mcpServers": {
     "odoo-boost": {
-      "command": "odoo-boost",
-      "args": ["mcp"]
+      "command": "/path/to/python",
+      "args": ["-m", "odoo_boost", "mcp"]
     }
   }
 }
 ```
 
+> The `command` is set to the full path of the Python interpreter that has Odoo Boost installed. This ensures the MCP server starts in the correct environment regardless of `PATH`.
+
 Claude Code auto-detects both `CLAUDE.md` and `.mcp.json` in the project root. No additional setup needed.
 
 You can also manually add the MCP server:
 ```bash
-claude mcp add odoo-boost odoo-boost mcp
+claude mcp add odoo-boost -- python -m odoo_boost mcp
 ```
 
 ---
@@ -62,8 +64,8 @@ alwaysApply: true
 {
   "mcpServers": {
     "odoo-boost": {
-      "command": "odoo-boost",
-      "args": ["mcp"]
+      "command": "/path/to/python",
+      "args": ["-m", "odoo_boost", "mcp"]
     }
   }
 }
@@ -86,8 +88,8 @@ Cursor auto-detects both files. Open the project in Cursor and the guidelines an
 {
   "servers": {
     "odoo-boost": {
-      "command": "odoo-boost",
-      "args": ["mcp"]
+      "command": "/path/to/python",
+      "args": ["-m", "odoo_boost", "mcp"]
     }
   }
 }
@@ -109,8 +111,8 @@ Open the project in VS Code with GitHub Copilot. The instructions file and MCP c
 ```toml
 # Odoo Boost MCP configuration for Codex
 [mcp_servers.odoo-boost]
-command = "odoo-boost"
-args = ["mcp"]
+command = "/path/to/python"
+args = ["-m", "odoo_boost", "mcp"]
 ```
 
 Codex reads `AGENTS.md` automatically and connects to MCP servers defined in `.codex/config.toml`.
@@ -130,8 +132,8 @@ Codex reads `AGENTS.md` automatically and connects to MCP servers defined in `.c
 {
   "mcpServers": {
     "odoo-boost": {
-      "command": "odoo-boost",
-      "args": ["mcp"]
+      "command": "/path/to/python",
+      "args": ["-m", "odoo_boost", "mcp"]
     }
   }
 }
@@ -156,8 +158,8 @@ Gemini CLI reads `GEMINI.md` and `.gemini/settings.json` from the project root.
 {
   "mcpServers": {
     "odoo-boost": {
-      "command": "odoo-boost",
-      "args": ["mcp"]
+      "command": "/path/to/python",
+      "args": ["-m", "odoo_boost", "mcp"]
     }
   }
 }
@@ -198,7 +200,7 @@ Files for removed agents are **not** automatically deleted. To clean up, remove 
 
 ## How the MCP Server Starts
 
-When your AI agent uses an MCP tool, it runs `odoo-boost mcp` as a subprocess. This:
+When your AI agent uses an MCP tool, it runs `python -m odoo_boost mcp` as a subprocess (using the full path to the Python interpreter). This:
 
 1. Reads `odoo-boost.json` from the current directory (or walks up to find it)
 2. Connects to Odoo via XML-RPC
@@ -206,3 +208,9 @@ When your AI agent uses an MCP tool, it runs `odoo-boost mcp` as a subprocess. T
 4. Starts the MCP server on stdio
 
 The agent communicates with the MCP server via stdin/stdout using the [MCP protocol](https://modelcontextprotocol.io/).
+
+### Why full Python paths?
+
+The generated MCP configs embed the absolute path to the Python interpreter (e.g. `/home/user/.venv/bin/python`) instead of a bare `odoo-boost` command. This is because AI agents typically spawn MCP servers as subprocesses without inheriting your shell's `PATH` or virtualenv activation. Using the full path guarantees the correct Python environment is used every time.
+
+If you move or recreate your virtualenv, run `odoo-boost update` to regenerate the MCP configs with the new path.

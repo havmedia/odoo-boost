@@ -25,13 +25,14 @@ class CopilotAgent(Agent):
         return self.project_path / ".github" / "skills"
 
     def _mcp_config_content(self) -> str:
+        cmd = self._mcp_command()
         return (
             json.dumps(
                 {
                     "servers": {
                         "odoo-boost": {
-                            "command": "odoo-boost",
-                            "args": ["mcp"],
+                            "command": cmd[0],
+                            "args": cmd[1:],
                         }
                     }
                 },

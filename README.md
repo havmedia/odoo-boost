@@ -2,7 +2,7 @@
 
 AI coding agents with deep introspection into running Odoo instances via MCP tools.
 
-Inspired by [Laravel Boost](https://github.com/nicepkg/laravel-boost), Odoo Boost gives your AI coding assistant deep knowledge of your Odoo project — models, views, records, access rights, configuration, and more — plus Odoo-specific development guidelines and step-by-step skills.
+Inspired by [Laravel Boost](https://github.com/laravel/boost), Odoo Boost gives your AI coding assistant deep knowledge of your Odoo project — models, views, records, access rights, configuration, and more — plus Odoo-specific development guidelines and step-by-step skills.
 
 ## Features
 
@@ -23,6 +23,12 @@ Or with [uv](https://docs.astral.sh/uv/):
 
 ```bash
 uv pip install odoo-boost
+```
+
+You can also install it as a global CLI tool:
+
+```bash
+uv tool install odoo-boost
 ```
 
 ## Quick Start
@@ -70,6 +76,8 @@ Your AI agent is now configured. The MCP server starts automatically when your a
 | `odoo-boost mcp` | Start the MCP server (stdio) |
 | `odoo-boost --version` | Show version |
 
+You can also run any command via `python -m odoo_boost`, e.g. `python -m odoo_boost --version`.
+
 ## How It Works
 
 ```
@@ -90,15 +98,37 @@ Odoo Boost sits between your AI agent and your Odoo instance. It provides:
 2. **Guidelines** — Odoo development best practices are injected into your agent's context so it writes idiomatic code
 3. **Skills** — Step-by-step guides for common tasks (creating models, views, security rules, etc.)
 
+### Robust MCP Server Resolution
+
+The generated MCP config files use the **full path to the Python interpreter** that has Odoo Boost installed, rather than relying on a bare `odoo-boost` command being available on `PATH`. This ensures the MCP server starts correctly regardless of how your AI agent spawns subprocesses.
+
+For example, the generated `.mcp.json` for Claude Code looks like:
+
+```json
+{
+  "mcpServers": {
+    "odoo-boost": {
+      "command": "/path/to/your/venv/bin/python",
+      "args": ["-m", "odoo_boost", "mcp"]
+    }
+  }
+}
+```
+
+This means:
+- The MCP server always runs in the correct Python environment
+- No dependency on `PATH` configuration or shell activation
+- Works with virtualenvs, `uv tool`, and system installs alike
+
 ## Documentation
 
-- [Getting Started](docs/getting-started.md) — Full setup walkthrough
-- [MCP Tools Reference](docs/mcp-tools.md) — All 15 tools with parameters and examples
-- [Agent Configuration](docs/agents.md) — Supported agents and their generated files
-- [Configuration](docs/configuration.md) — `odoo-boost.json` schema and CLI options
-- [Guidelines](docs/guidelines.md) — Bundled Odoo development guidelines
-- [Skills](docs/skills.md) — Step-by-step development skills
-- [Contributing](CONTRIBUTING.md) — How to add tools, agents, and skills
+- [Getting Started](https://github.com/havmedia/odoo-boost/blob/main/docs/getting-started.md) — Full setup walkthrough
+- [MCP Tools Reference](https://github.com/havmedia/odoo-boost/blob/main/docs/mcp-tools.md) — All 15 tools with parameters and examples
+- [Agent Configuration](https://github.com/havmedia/odoo-boost/blob/main/docs/agents.md) — Supported agents and their generated files
+- [Configuration](https://github.com/havmedia/odoo-boost/blob/main/docs/configuration.md) — `odoo-boost.json` schema and CLI options
+- [Guidelines](https://github.com/havmedia/odoo-boost/blob/main/docs/guidelines.md) — Bundled Odoo development guidelines
+- [Skills](https://github.com/havmedia/odoo-boost/blob/main/docs/skills.md) — Step-by-step development skills
+- [Contributing](https://github.com/havmedia/odoo-boost/blob/main/CONTRIBUTING.md) — How to add tools, agents, and skills
 
 ## Supported Agents
 
