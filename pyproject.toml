@@ -9,7 +9,12 @@ description = "AI coding agents with deep introspection into running Odoo instan
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-authors = [{ name = "Odoo Boost Contributors" }]
+authors = [
+    {name = "Jan-Phillip Oesterling", email = "jappi2000@ewetel.net"},
+]
+maintainers = [
+    {name = "Jan-Phillip Oesterling", email = "jappi2000@ewetel.net"},
+]
 keywords = ["odoo", "mcp", "ai", "coding-assistant", "boost"]
 classifiers = [
     "Development Status :: 4 - Beta",
