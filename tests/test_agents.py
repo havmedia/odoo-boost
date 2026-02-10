@@ -168,3 +168,57 @@ class TestJunieAgent:
         assert ".junie" in str(a.guidelines_path)
         assert ".junie" in str(a.mcp_config_path)
         assert ".junie" in str(a.skills_dir)
+
+
+# ---------------------------------------------------------------------------
+# Conditional generation based on config flags
+# ---------------------------------------------------------------------------
+
+
+class TestConditionalGeneration:
+    @pytest.fixture()
+    def _config_factory(self, sample_config):
+        """Return a helper to create config with custom generate flags."""
+
+        def _make(generate_mcp: bool = True, generate_ai_files: bool = True) -> OdooBoostConfig:
+            return OdooBoostConfig(
+                connection=sample_config.connection,
+                odoo_version=sample_config.odoo_version,
+                agents=sample_config.agents,
+                project_path=sample_config.project_path,
+                generate_mcp=generate_mcp,
+                generate_ai_files=generate_ai_files,
+            )
+
+        return _make
+
+    def test_no_mcp_when_disabled(self, _config_factory, tmp_path):
+        cfg = _config_factory(generate_mcp=False, generate_ai_files=True)
+        a = ClaudeCodeAgent(config=cfg, project_path=tmp_path)
+        paths = a.install()
+        # Guidelines and skills should exist
+        assert a.guidelines_path.exists()
+        assert a.skills_dir.is_dir()
+        # MCP config should not exist
+        assert not a.mcp_config_path.exists()
+        assert a.mcp_config_path not in paths
+
+    def test_no_ai_files_when_disabled(self, _config_factory, tmp_path):
+        cfg = _config_factory(generate_mcp=True, generate_ai_files=False)
+        a = ClaudeCodeAgent(config=cfg, project_path=tmp_path)
+        paths = a.install()
+        # MCP config should exist
+        assert a.mcp_config_path.exists()
+        # Guidelines and skills should not exist
+        assert not a.guidelines_path.exists()
+        assert not a.skills_dir.exists()
+        assert a.guidelines_path not in paths
+
+    def test_both_disabled(self, _config_factory, tmp_path):
+        cfg = _config_factory(generate_mcp=False, generate_ai_files=False)
+        a = ClaudeCodeAgent(config=cfg, project_path=tmp_path)
+        paths = a.install()
+        assert paths == []
+        assert not a.guidelines_path.exists()
+        assert not a.mcp_config_path.exists()
+        assert not a.skills_dir.exists()

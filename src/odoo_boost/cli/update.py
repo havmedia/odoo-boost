@@ -27,6 +27,11 @@ def update(
 
     console.print("[bold]Updating Odoo Boost files…[/]\n")
 
+    if not cfg.generate_mcp:
+        console.print("  [dim]MCP config generation disabled[/]")
+    if not cfg.generate_ai_files:
+        console.print("  [dim]AI file generation disabled[/]")
+
     for agent_id in cfg.agents:
         agent_cls = AGENTS.get(agent_id)
         if agent_cls is None:

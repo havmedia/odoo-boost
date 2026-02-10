@@ -29,3 +29,7 @@ class OdooBoostConfig(BaseModel):
         description="Enabled agent identifiers (e.g. ['claude_code', 'cursor'])",
     )
     project_path: str = Field(default=".", description="Path to the Odoo project root")
+    generate_mcp: bool = Field(default=True, description="Generate MCP config files for agents")
+    generate_ai_files: bool = Field(
+        default=True, description="Generate AI guideline and skill files for agents"
+    )

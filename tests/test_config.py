@@ -67,6 +67,35 @@ class TestOdooBoostConfig:
         assert restored.connection.url == sample_config.connection.url
         assert restored.agents == sample_config.agents
 
+    def test_generate_flags_default_true(self, sample_connection_config):
+        """Both generate flags should default to True."""
+        cfg = OdooBoostConfig(connection=sample_connection_config)
+        assert cfg.generate_mcp is True
+        assert cfg.generate_ai_files is True
+
+    def test_generate_flags_roundtrip(self, sample_connection_config):
+        """JSON serialize/deserialize with False values."""
+        cfg = OdooBoostConfig(
+            connection=sample_connection_config,
+            generate_mcp=False,
+            generate_ai_files=False,
+        )
+        data = json.loads(cfg.model_dump_json())
+        restored = OdooBoostConfig.model_validate(data)
+        assert restored.generate_mcp is False
+        assert restored.generate_ai_files is False
+
+    def test_backward_compat_missing_flags(self, sample_connection_config):
+        """Old config without generate flags parses with True defaults."""
+        data = {
+            "connection": sample_connection_config.model_dump(),
+            "odoo_version": "18.0",
+            "agents": ["claude_code"],
+        }
+        cfg = OdooBoostConfig.model_validate(data)
+        assert cfg.generate_mcp is True
+        assert cfg.generate_ai_files is True
+
     def test_extra_fields_ignored(self, sample_connection_config):
         """Extra fields in JSON should not break parsing."""
         data = {

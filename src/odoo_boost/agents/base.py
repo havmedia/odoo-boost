@@ -33,9 +33,11 @@ class Agent(ABC):
     def install(self) -> list[Path]:
         """Generate all files for this agent. Returns paths created."""
         created: list[Path] = []
-        created.append(self._write_guidelines())
-        created.append(self._write_mcp_config())
-        created.extend(self._write_skills())
+        if self.config.generate_ai_files:
+            created.append(self._write_guidelines())
+            created.extend(self._write_skills())
+        if self.config.generate_mcp:
+            created.append(self._write_mcp_config())
         return created
 
     def uninstall(self) -> None:
