@@ -7,7 +7,7 @@ from pathlib import Path
 import typer
 from rich.console import Console
 from rich.panel import Panel
-from rich.prompt import Prompt
+from rich.prompt import Confirm, Prompt
 
 from odoo_boost.agents import AGENTS, ALL_AGENT_IDS
 from odoo_boost.config.schema import OdooBoostConfig, OdooConnection
@@ -98,8 +98,17 @@ def install() -> None:
 
     console.print(f"  Selected: [cyan]{', '.join(selected_agents)}[/]")
 
-    # --- Step 4: Generate config + files ---
-    console.print("\n[bold]Step 4:[/] Generating files…\n")
+    # --- Step 4: Generation options ---
+    console.print("\n[bold]Step 4:[/] Generation options\n")
+
+    generate_mcp = Confirm.ask("  Generate MCP config files?", default=True)
+    generate_ai_files = Confirm.ask("  Generate AI guidelines and skill files?", default=True)
+
+    if not generate_mcp and not generate_ai_files:
+        console.print("  [dim]Both disabled — only odoo-boost.json will be created.[/]")
+
+    # --- Step 5: Generate config + files ---
+    console.print("\n[bold]Step 5:[/] Generating files…\n")
 
     project_path = Path.cwd()
 
@@ -108,6 +117,8 @@ def install() -> None:
         odoo_version=odoo_version,
         agents=selected_agents,
         project_path=str(project_path),
+        generate_mcp=generate_mcp,
+        generate_ai_files=generate_ai_files,
     )
 
     # Save config
